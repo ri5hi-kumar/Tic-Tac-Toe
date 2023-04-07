@@ -1,3 +1,27 @@
+const displayController = (currentBoard, game) => {
+    const fieldElements = document.querySelectorAll(".field");
+    const restart = document.getElementById("restart");
+
+    fieldElements.forEach((element) => {
+        element.addEventListener("click", (e) => {
+            if(game.getGameState() || e.target.textContent !== "") return;
+            game.playTurn(parseInt(e.target.dataset.index));
+            updateBoard();
+        })
+    })
+
+    restart.addEventListener("click", (e) => {
+        game.resetgame();
+        updateBoard();
+    })
+
+    const updateBoard = () => {
+        for(let i = 0; i < fieldElements.length; i++){
+            fieldElements[i].textContent = currentBoard.getSign(i);
+        }
+    }
+}
+
 const gameBoard = () => {
     const board = ["", "", "", "", "", "", "", "", ""];
 
@@ -18,16 +42,7 @@ const gameBoard = () => {
         }
     }
 
-    const printBoard = () => {
-        console.log(board[0] + " | " + board[1] + " | " + board[2]);
-        console.log("---------");
-        console.log(board[3] + " | " + board[4] + " | " + board[5]);
-        console.log("---------");
-        console.log(board[6] + " | " + board[7] + " | " + board[8]);
-    }
-
-
-    return {setSign, getSign, reset, printBoard};
+    return {setSign, getSign, reset};
 }
 
 
@@ -44,7 +59,7 @@ const gameController = (currentBoard) => {
         [1, 4, 7],
         [2, 5, 8],
         [0, 4, 8],
-        [2, 4, 5]
+        [2, 4, 6]
     ];
 
     const checkWiningCodition = () => {
@@ -86,6 +101,7 @@ const gameController = (currentBoard) => {
 
     const resetgame = () => {
         isGameOver = false;
+        turn = 1;
         currentBoard.reset();
     }
 
@@ -98,8 +114,8 @@ const gameController = (currentBoard) => {
 const currentBoard = gameBoard();
 const game = gameController(currentBoard);
 
-while(!game.getGameState()){
-    const index = prompt("Enter the index where you want to play");
-    game.playTurn(index);
-    currentBoard.printBoard();
-}
+const display = displayController(currentBoard, game);
+
+// while(!game.getGameState()){
+//     game.playTurn(index);
+// }
