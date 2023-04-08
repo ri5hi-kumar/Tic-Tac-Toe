@@ -49,7 +49,7 @@ const gameBoard = () => {
 const gameController = (currentBoard) => {
     let isGameOver = false;
     let player = 'X';
-    let turn = 1;
+    let turn = 0;
 
     const winConditions = [
         [0, 1, 2],
@@ -115,7 +115,3 @@ const currentBoard = gameBoard();
 const game = gameController(currentBoard);
 
 const display = displayController(currentBoard, game);
-
-// while(!game.getGameState()){
-//     game.playTurn(index);
-// }
